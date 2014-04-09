@@ -1,17 +1,14 @@
-Name: python
-Cartridge-Short-Name: PYTHON
+Name: cdk
+Cartridge-Short-Name: CDK
 Display-Name: Python 2.7
-Description: ! 'Python is a general-purpose, high-level programming language whose
-  design philosophy emphasizes code readability. Popular development frameworks include:
-  Django, Bottle, Pylons, Zope and TurboGears.'
+Description: "jha Test"
 Version: '2.7'
 Versions:
 - '2.6'
 License: The Python License, version 2.7
 License-Url: http://docs.python.org/3/license.html
-Vendor: python.org
-Cartridge-Version: 0.0.7
-Compatible-Versions: []
+Vendor: pcsol
+Cartridge-Version: '0.0.7'
 Cartridge-Vendor: pcsol
 Categories:
 - service
