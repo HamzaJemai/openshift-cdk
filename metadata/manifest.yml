@@ -1,9 +1,7 @@
 Name: python
 Cartridge-Short-Name: PYTHON
 Display-Name: Python 2.7
-Description: ! 'Python is a general-purpose, high-level programming language whose
-  design philosophy emphasizes code readability. Popular development frameworks include:
-  Django, Bottle, Pylons, Zope and TurboGears.'
+Description: "jha description"
 Version: '2.7'
 Versions:
 - '2.6'
@@ -84,4 +82,3 @@ Endpoints:
     Backend: ''
     Options:
       health: true
-      
