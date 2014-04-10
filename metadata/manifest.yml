@@ -10,6 +10,9 @@ Vendor: python.org
 Cartridge-Version: '0.0.7'
 Cartridge-Vendor: pcsol
 Categories:
+- service
+- web_framework
+- python
 Website: http://www.python.org
 Help-Topics:
   "Developer Center": https://www.openshift.com/developers
