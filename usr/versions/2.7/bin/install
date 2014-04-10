@@ -1,0 +1,45 @@
+#!/bin/bash -eu
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+version="$1"
+
+# Copy the version specific files to python directory
+shopt -s dotglob
+cp -r $OPENSHIFT_PYTHON_DIR/usr/versions/$version/template/* $OPENSHIFT_PYTHON_DIR/template
+
+# Create additional directories required by PYTHON and httpd
+ln -sf /usr/lib64/httpd/modules $OPENSHIFT_PYTHON_DIR
+ln -sf /etc/httpd/conf/magic $OPENSHIFT_PYTHON_DIR/etc/magic
+
+# The virtual environment is assumed to exist going forward
+if [ ! -f $OPENSHIFT_PYTHON_DIR/virtenv/bin/python ]
+then
+    source $OPENSHIFT_PYTHON_DIR/usr/versions/$version/lib/python-context
+    python-context-stdin <<EOF
+source $OPENSHIFT_PYTHON_DIR/usr/versions/$version/lib/create-virtenv
+create-virtenv
+EOF
+fi
+  #ADD BY JHA
+client_message "=== BEGIN === PCSOL ======== Install Dependency === 2.7 ==="
+    cd $OPENSHIFT_PYTHON_DIR/openerp
+	CFLAGS="-O0"  pip install lxml==3.1.2   
+	pip install pytz  
+	pip install PIL  
+    pip install unittest2  
+	pip install python-dateutil 
+	pip install pyyaml  
+	pip install reportlab   
+	pip install mako  
+	pip install pillow  
+	pip install docutils  
+	pip install simplejson  
+	pip install python-openid  
+	pip install werkzeug  
+	pip install mock  
+	pip install paramiko  
+	pip install babel  
+	pip install mako 
+	pip install psycopg2 
+	pip install http://download.gna.org/pychart/PyChart-1.39.tar.gz 
+	pip install http://gdata-python-client.googlecode.com/files/gdata-2.0.17.tar.gz 
+client_message "=== END === PCSOL ======== Install Dependency === 2.7 ==="

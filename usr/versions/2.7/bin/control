@@ -1,0 +1,77 @@
+#!/bin/bash
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+source "${OPENSHIFT_PYTHON_DIR}/usr/versions/${OPENSHIFT_PYTHON_VERSION}/lib/create-virtenv"
+
+HTTPD_CFG_FILE=$OPENSHIFT_PYTHON_DIR/etc/conf/httpd_nolog.conf
+HTTPD_CFG_DIR=$OPENSHIFT_PYTHON_DIR/etc/conf.d
+HTTPD_PASSENV_FILE=$HTTPD_CFG_DIR/passenv.conf
+HTTPD_PID_FILE=$OPENSHIFT_PYTHON_DIR/run/httpd.pid
+
+if ! [ -n $LD_LIBRARY_PATH ] ; then
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rh/postgresql92/root/usr/lib64/
+fi
+# For backwards compatibility
+export APPDIR=$OPENSHIFT_PYTHON_DIR
+
+function start() {
+echo "Starting PYTHON cart"  
+ if ! [ -n "$OPENSHIFT_POSTGRESQL_DB_HOST" ]; then
+    echo "Please install Postgres" 
+    else
+    echo "*** Execute openerp-server ***" 
+   	exec $OPENSHIFT_PYTHON_DIR/openerp/openerp-server --db_host=$OPENSHIFT_POSTGRESQL_DB_HOST --db_port=$OPENSHIFT_POSTGRESQL_DB_PORT -r $OPENSHIFT_POSTGRESQL_DB_USERNAME -w $OPENSHIFT_POSTGRESQL_DB_PASSWORD --xmlrpc-interface=$OPENSHIFT_PYTHON_IP --xmlrpc-port=$OPENSHIFT_PYTHON_PORT  --proxy-mode --logfile=$OPENSHIFT_PYTHON_DIR/logs/openerp.log & 
+ 	echo "*** Successfully Execution openerp-server ***" 
+ fi 
+ }
+
+function stop() {
+    echo "Stopping PYTHON cart"  
+    pkill python
+    echo "END Stopping PYTHON cart"  
+    
+}
+
+function restart() {
+   echo "Restarting PYTHON cart"  
+   stop
+   start
+   echo " END Restarting PYTHON cart" 	
+ }
+   
+function status() {
+echo "Status"  
+}
+
+function reload() {
+    echo "Reloading PYTHON cart"   
+    restart
+    echo "END Reloading PYTHON cart"   
+}
+
+# Clean up any log files
+function tidy() {
+echo "Status"  
+  client_message "Emptying log dir: $OPENSHIFT_PYTHON_LOG_DIR"
+  rm -rf $OPENSHIFT_PYTHON_LOG_DIR/*
+}
+
+function build() {
+echo "build"  
+}
+
+function deploy() {
+echo "deploy"  
+}
+
+case "$1" in
+  start)     start ;;
+  stop)      stop ;;
+  restart)   restart ;;
+  status)    status ;;
+  reload)    reload ;;
+  tidy)      tidy ;;
+  build)     build ;;
+  deploy)    deploy ;;
+  *)         exit 0
+esac

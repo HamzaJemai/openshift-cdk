@@ -1,0 +1,30 @@
+#!/bin/bash -eu
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+client_message "=== PCSOL ======== SETUP ====== $1 === $2"
+case "$1" in
+    -v|--version)
+      version="2.7"
+esac
+client_message "=== PCSOL ======== SETUP AFTER ====== $version"
+#Creation du dossier OpenERP
+mkdir -p $OPENSHIFT_PYTHON_DIR/openerp
+
+# Download OpenERP
+client_message "=== BEGIN === PCSOL ======== Installing OPENERP======"
+curl --silent -o ${OPENSHIFT_PYTHON_DIR}openerp${OPENERP_TAR} ${OPENERP_URL}${OPENERP_TAR}
+client_message "=== END === PCSOL ======== Installing OPENERP======"
+
+# Unzip
+client_message "=== BEGIN === PCSOL ======== Unzip OPENERP======"
+tar -zxvf ${OPENSHIFT_PYTHON_DIR}openerp${OPENERP_TAR} -C ${OPENSHIFT_PYTHON_DIR}openerp --strip-components 1
+client_message "=== END === PCSOL ======== Unzip OPENERP======"
+
+mkdir -p $OPENSHIFT_PYTHON_DIR/etc
+
+# Update environment
+source $OPENSHIFT_PYTHON_DIR/usr/versions/$version/lib/update-configuration
+update-configuration
+
+# Call the version specific setup script
+exec $OPENSHIFT_PYTHON_DIR/usr/versions/$version/bin/setup $version
