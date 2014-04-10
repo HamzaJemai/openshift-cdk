@@ -5,6 +5,7 @@ Description: "jha description"
 Version: '2.7'
 Versions:
 - '2.6'
+Source-Url: https://github.com/HamzaJemai/openshift-cdk.git
 License: The Python License, version 2.7
 License-Url: http://docs.python.org/3/license.html
 Vendor: python.org
