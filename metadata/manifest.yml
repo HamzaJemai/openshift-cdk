@@ -12,9 +12,9 @@ Cartridge-Version: 0.0.7
 Compatible-Versions: []
 Cartridge-Vendor: pcsol
 Categories:
-- service
 - python
 - web_framework
+- embedded
 Website: http://www.python.org
 Help-Topics:
   Developer Center: https://www.openshift.com/developers
